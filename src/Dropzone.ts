@@ -1,4 +1,3 @@
-import './styles/upzone.scss';
 import { DropzoneOptions, FileItem } from '../types';
 
 export default class Dropzone {
