@@ -42,28 +42,28 @@ export default [
             })
         ]
     },
-    {
-        input: 'src/components/VueComponent.vue',
-        output: {
-            file: 'dist/upzone.vue.js',
-            format: 'esm',
-            sourcemap: true
-        },
-        plugins: [
-            resolve(),
-            commonjs(),
-            vue(),
-            typescript({
-                tsconfig: './tsconfig.json'
-            }),
-            terser(),
-            postcss({
-                extensions: ['.scss', '.css'],
-                extract: false,
-                minimize: true
-            })
-        ]
-    },
+    // {
+    //     input: 'src/components/VueComponent.vue',
+    //     output: {
+    //         file: 'dist/upzone.vue.js',
+    //         format: 'esm',
+    //         sourcemap: true
+    //     },
+    //     plugins: [
+    //         resolve(),
+    //         commonjs(),
+    //         vue(),
+    //         typescript({
+    //             tsconfig: './tsconfig.json'
+    //         }),
+    //         terser(),
+    //         postcss({
+    //             extensions: ['.scss', '.css'],
+    //             extract: false,
+    //             minimize: true
+    //         })
+    //     ]
+    // },
     {
         input: 'types/index.d.ts',
         output: {
