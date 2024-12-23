@@ -13,14 +13,13 @@ export default class Dropzone {
 
     constructor(element: HTMLElement, options: DropzoneOptions) {
         if (!(element instanceof HTMLElement)) {
-            throw new Error('O primeiro parâmetro deve ser um elemento HTML válido.');
+            throw new Error('The first parameter must be a valid HTML element.');
         }
 
         this.element = element;
 
         this.options = {
             ...{
-                autoRender: true,
                 autoQueue: true,
                 multipleUploads: true,
                 url: '/upload',
@@ -47,10 +46,8 @@ export default class Dropzone {
         this.queue = [];
         this.uploadingFiles = new Map();
 
-        if (this.options.autoRender) {
-            this.createDropzone();
-            this.initialize();
-        }
+        this.createDropzone();
+        this.initialize();
     }
 
     createDropzone() {
@@ -183,7 +180,7 @@ export default class Dropzone {
             };
             reader.readAsDataURL(file);
         } else {
-            preview.classList.add('file-icon'); // Adiciona classe para SVG
+            preview.classList.add('file-icon');
         }
 
         previewContainer.appendChild(preview);
@@ -210,7 +207,7 @@ export default class Dropzone {
         listItem.appendChild(removeButton);
         this.fileList?.appendChild(listItem);
 
-        (file as FileItem).listItem = listItem; // Reference for progress update
+        (file as FileItem).listItem = listItem;
     }
 
     uploadFile(file: File) {
@@ -222,7 +219,7 @@ export default class Dropzone {
         }
 
         const xhr = new XMLHttpRequest();
-        xhr.open(this.options.method ?? 'POST', this.options.url ?? '/upload');
+        xhr.open(this.options.method ?? 'POST', this.options.url);
 
         for (const [header, value] of Object.entries(this.options.headers)) {
             xhr.setRequestHeader(header, value);
@@ -237,7 +234,9 @@ export default class Dropzone {
                 if (file.listItem) {
                     file.listItem.classList.add('uploading');
                     file.listItem.style.backgroundSize = `${percentComplete}% 100%`;
+
                     const fileInfo = file.listItem.querySelector('span.file-info');
+
                     if (fileInfo) {
                         fileInfo.textContent = `Uploading... (${percentComplete.toFixed(1)}%)`;
                     }
@@ -252,12 +251,14 @@ export default class Dropzone {
 
             if (xhr.status === 200 || xhr.status === 201) {
                 const message = this.formatMessage(this.options.messages.uploadSuccess, {
-                    file: file.name,
+                    file: file.name
                 });
 
                 if (file.listItem) {
                     file.listItem.classList.add('uploaded');
+
                     const fileInfo = file.listItem.querySelector('span.file-info');
+
                     if (fileInfo) {
                         fileInfo.textContent = `${file.name} uploaded successfully.`;
                     }
@@ -266,8 +267,9 @@ export default class Dropzone {
                 this.emit('uploadsuccess', { file: { name: file.name, size: file.size }, message });
             } else {
                 const message = this.formatMessage(this.options.messages.uploadError, {
-                    file: file.name,
+                    file: file.name
                 });
+
                 this.emit('uploaderror', { file: { name: file.name, size: file.size }, message });
             }
 
@@ -276,8 +278,9 @@ export default class Dropzone {
 
         xhr.onerror = () => {
             const message = this.formatMessage(this.options.messages.uploadError, {
-                file: file.name,
+                file: file.name
             });
+
             this.emit('uploaderror', { file: { name: file.name, size: file.size }, message });
             this.uploadingFiles.delete(file);
         };
@@ -291,6 +294,7 @@ export default class Dropzone {
 
     emit(event: string, data: any) {
         const listeners = this.eventListeners[event];
+
         if (listeners) {
             listeners.forEach((callback) => callback(data));
         }
@@ -300,6 +304,7 @@ export default class Dropzone {
         if (!this.eventListeners[event]) {
             this.eventListeners[event] = [];
         }
+
         this.eventListeners[event].push(callback);
     }
 }  

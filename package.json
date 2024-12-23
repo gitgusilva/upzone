@@ -1,6 +1,6 @@
 {
   "name": "upzone",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Components built with Vue.js",
   "type": "module",
   "main": "./dist/upzone.js",
@@ -12,7 +12,9 @@
       "import": "./dist/upzone.esm.js",
       "require": "./dist/upzone.js"
     },
-    "./css": "./dist/upzone.css"
+    "./css": "./dist/upzone.css",
+    "./vue": "./dist/upzone.vue.js",
+    "./types": "./dist/upzone.d.ts"
   },
   "license": "MIT",
   "keywords": [

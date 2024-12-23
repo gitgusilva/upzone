@@ -5,7 +5,6 @@ declare global {
 }
 
 export interface DropzoneOptions {
-    autoRender: boolean;
     autoQueue: boolean;
     multipleUploads: boolean;
     url: string;

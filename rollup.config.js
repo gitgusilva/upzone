@@ -12,13 +12,13 @@ export default [
             {
                 file: 'dist/upzone.js',
                 format: 'cjs',
-                sourcemap: true,
+                sourcemap: true
             },
             {
                 file: 'dist/upzone.esm.js',
                 format: 'esm',
-                sourcemap: true,
-            },
+                sourcemap: true
+            }
         ],
         plugins: [
             resolve(),
@@ -32,14 +32,36 @@ export default [
     {
         input: 'src/styles/upzone.scss',
         output: {
-            file: 'dist/upzone.css',
+            file: 'dist/upzone.css'
         },
         plugins: [
             postcss({
                 extensions: ['.scss', '.css'],
                 extract: true,
                 minimize: true
+            })
+        ]
+    },
+    {
+        input: 'src/components/VueComponent.vue',
+        output: {
+            file: 'dist/upzone.vue.js',
+            format: 'esm',
+            sourcemap: true
+        },
+        plugins: [
+            resolve(),
+            commonjs(),
+            vue(),
+            typescript({
+                tsconfig: './tsconfig.json'
             }),
+            terser(),
+            postcss({
+                extensions: ['.scss', '.css'],
+                extract: false,
+                minimize: true
+            })
         ]
     },
     {
