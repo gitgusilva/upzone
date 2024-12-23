@@ -27,12 +27,15 @@ export default {
         }),
         terser(),
         postcss({
-            extensions: ['.scss'],
+            extensions: ['.scss', '.css'],
+            extract: false,
+            minimize: true,
+            inject: {
+                insertAt: 'top'
+            },
             use: [
-                ['sass', { includePaths: ['./src/styles'] }]
+                ['sass', { includePaths: ['./src/styles'] }],
             ],
-            extract: 'styles.css',
-            minimize: true
         }),
         url({
             include: ['**/*.svg'],

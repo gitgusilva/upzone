@@ -16,9 +16,7 @@
   ],
   "author": "Gustavo Silva <gug.contato@gmail.com>",
   "files": [
-    "dist",
-    "src/styles",
-    "src/assets"
+    "dist"
   ],
   "bugs": {
     "url": "https://github.com/gitgusilva/upzone/issues"
@@ -45,6 +43,7 @@
   },
   "dependencies": {
     "sass": "^1.83.0",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "upzone": "^1.0.0"
   }
 }
