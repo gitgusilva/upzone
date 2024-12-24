@@ -54,7 +54,6 @@ npm install upzone/vue
 <template>
   <Upzone
     v-model="files"
-    :propExemplo="true"
     :options="options"
     @fileadded="handleFileAdded"
     @uploadsuccess="handleUploadSuccess"
