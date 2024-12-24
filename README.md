@@ -26,7 +26,7 @@ npm install upzone/vue
 ```html
 <div id="myDropzone"></div>
 <script type="module">
-    import Dropzone from 'upzone';
+    import Upzone from 'upzone';
 
     const element = document.getElementById('myDropzone');
     const options = {
@@ -36,7 +36,7 @@ npm install upzone/vue
         maxFileSize: 5000000, // 5MB
     };
 
-    const dropzone = new Dropzone(element, options);
+    const dropzone = new Upzone(element, options);
 
     dropzone.on('fileadded', (file) => {
         console.log('File added:', file);
@@ -51,34 +51,39 @@ npm install upzone/vue
 ### Using Vue
 ```html
 <template>
-  <div id="dropzone-container"></div>
+  <Upzone
+    v-model="files"
+    :propExemplo="true"
+    :options="options"
+    @fileadded="handleFileAdded"
+    @uploadsuccess="handleUploadSuccess"
+  />
 </template>
 
 <script>
-import Dropzone from 'upzone';
+import Upzone from 'upzone/vue';
 
 export default {
-  name: 'FileUploader',
-  mounted() {
-    const options = {
-      url: '/upload',
-      multipleUploads: true,
-      acceptedTypes: ['image/*'],
-    };
-
-    this.dropzone = new Dropzone(this.$el.querySelector('#dropzone-container'), options);
-
-    this.dropzone.on('fileadded', (file) => {
+  name: 'MyComponent',
+  components: [ Upzone ],
+  data () {
+    return {
+      files: [],
+      options: {
+        url: '/upload',
+        multipleUploads: true,
+        acceptedTypes: ['image/*']
+      }
+    }
+  },
+  methods: {
+    handleFileAdded ({ file, message }) {
       console.log('File added:', file);
-    });
-
-    this.dropzone.on('uploadsuccess', (data) => {
-      console.log('Upload successful:', data);
-    });
-  },
-  beforeUnmount() {
-    this.dropzone = null;
-  },
+    },
+    handleUploadSuccess ({ file, message }) {
+      console.log('Upload successful:', file);
+    }
+  }
 };
 </script>
 

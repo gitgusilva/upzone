@@ -1,9 +1,9 @@
+import vue from 'rollup-plugin-vue';
 import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import postcss from 'rollup-plugin-postcss';
 import terser from '@rollup/plugin-terser';
-import dts from 'rollup-plugin-dts';
 
 export default [
     {
@@ -42,34 +42,33 @@ export default [
             })
         ]
     },
-    // {
-    //     input: 'src/components/VueComponent.vue',
-    //     output: {
-    //         file: 'dist/upzone.vue.js',
-    //         format: 'esm',
-    //         sourcemap: true
-    //     },
-    //     plugins: [
-    //         resolve(),
-    //         commonjs(),
-    //         vue(),
-    //         typescript({
-    //             tsconfig: './tsconfig.json'
-    //         }),
-    //         terser(),
-    //         postcss({
-    //             extensions: ['.scss', '.css'],
-    //             extract: false,
-    //             minimize: true
-    //         })
-    //     ]
-    // },
     {
-        input: 'types/index.d.ts',
+        input: 'src/vue/UpzoneComponent.vue',
         output: {
-            file: 'dist/upzone.d.ts',
-            format: 'es'
+            file: 'dist/upzone.vue.js',
+            format: 'esm',
+            sourcemap: true
         },
-        plugins: [dts()]
+        plugins: [
+            resolve({
+                extensions: ['.js', '.ts', '.vue'],
+                dedupe: ['vue']
+            }),
+            commonjs(),
+            typescript({
+                tsconfig: './tsconfig.json',
+            }),
+            vue({
+                css: true,
+                compileTemplate: true,
+                processStyles: true
+            }),
+            terser(),
+            postcss({
+                extensions: ['.scss', '.css'],
+                extract: false,
+                minimize: true
+            })
+        ]
     }
 ];

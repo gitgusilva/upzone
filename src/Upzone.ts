@@ -113,6 +113,7 @@ export default class Dropzone {
     handleFileSelect(event: Event) {
         const input = event.target as HTMLInputElement;
         const files = input.files;
+
         if (files) {
             this.validateAndHandleFiles(files);
         }
@@ -122,9 +123,10 @@ export default class Dropzone {
         Array.from(files).forEach((file) => {
             if (!this.isValidFileType(file)) {
                 const message = this.formatMessage(this.options.messages.invalidType, {
-                    file: file.name,
+                    file: file.name
                 });
-                this.emit('uploaderror', { file: { name: file.name, size: file.size }, message });
+
+                this.emit('uploaderror', { file, message });
                 return;
             }
 
@@ -132,14 +134,16 @@ export default class Dropzone {
                 const sizeInKB = (file.size / 1024).toFixed(1);
                 const message = this.formatMessage(this.options.messages.invalidSize, {
                     file: file.name,
-                    size: sizeInKB,
+                    size: sizeInKB
                 });
-                this.emit('uploaderror', { file: { name: file.name, size: file.size }, message });
+
+                this.emit('uploaderror', { file, message });
                 return;
             }
 
-            this.emit('fileadded', { name: file.name, size: file.size });
+            this.emit('fileadded', file);
             this.addFileToList(file);
+
             if (this.options.autoQueue) {
                 this.uploadFile(file);
             } else {
@@ -175,9 +179,8 @@ export default class Dropzone {
 
         if (file.type.startsWith('image/')) {
             const reader = new FileReader();
-            reader.onload = (e) => {
-                preview.style.backgroundImage = `url(${e.target?.result})`;
-            };
+
+            reader.onload = (e) => preview.style.backgroundImage = `url(${e.target?.result})`;
             reader.readAsDataURL(file);
         } else {
             preview.classList.add('file-icon');
@@ -193,15 +196,19 @@ export default class Dropzone {
         listItem.appendChild(previewContainer);
 
         const removeButton = document.createElement('button');
+
         removeButton.className = 'remove-btn';
         removeButton.innerHTML = '&times;';
+
         removeButton.addEventListener('click', () => {
             this.fileList?.removeChild(listItem);
             this.uploadedFiles = this.uploadedFiles.filter((f) => f.name !== file.name);
+
             const message = this.formatMessage(this.options.messages.fileRemoved, {
-                file: file.name,
+                file: file.name
             });
-            this.emit('fileremoved', { file: { name: file.name, size: file.size }, message });
+
+            this.emit('fileremoved', { file, message });
         });
 
         listItem.appendChild(removeButton);
@@ -264,13 +271,13 @@ export default class Dropzone {
                     }
                 }
 
-                this.emit('uploadsuccess', { file: { name: file.name, size: file.size }, message });
+                this.emit('uploadsuccess', { file, message });
             } else {
                 const message = this.formatMessage(this.options.messages.uploadError, {
                     file: file.name
                 });
 
-                this.emit('uploaderror', { file: { name: file.name, size: file.size }, message });
+                this.emit('uploaderror', { file, message });
             }
 
             this.uploadingFiles.delete(file);
@@ -281,7 +288,7 @@ export default class Dropzone {
                 file: file.name
             });
 
-            this.emit('uploaderror', { file: { name: file.name, size: file.size }, message });
+            this.emit('uploaderror', { file, message });
             this.uploadingFiles.delete(file);
         };
 

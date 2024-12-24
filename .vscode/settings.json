@@ -1,0 +1,27 @@
+{
+    "workbench.startupEditor": "none",
+    "explorer.confirmDelete": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit"
+    },
+    "eslint.options": {
+        "configFile": ".eslintrc.cjs"
+    },
+    "eslint.validate": [
+        "javascript",
+        "vue"
+    ],
+    "eslint.format.enable": true,
+    "eslint.run": "onSave",
+    "editor.formatOnSave": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "git.confirmSync": false,
+    "gitlens.showWelcomeOnInstall": false,
+    "gitlens.showWhatsNewAfterUpgrades": false,
+    "vue.autoInsert.dotValue": true,
+    "[vue]": {
+        "editor.defaultFormatter": "Vue.volar"
+    },
+    "editor.minimap.enabled": false,
+}

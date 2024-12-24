@@ -1,3 +1,3 @@
-import Dropzone from "./Dropzone";
+import Upzone from "./Upzone";
 
-export { Dropzone };
+export default Upzone;
