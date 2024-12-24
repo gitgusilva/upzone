@@ -27,6 +27,7 @@ npm install upzone/vue
 <div id="myDropzone"></div>
 <script type="module">
     import Upzone from 'upzone';
+    import 'upzone/css';
 
     const element = document.getElementById('myDropzone');
     const options = {
@@ -62,6 +63,7 @@ npm install upzone/vue
 
 <script>
 import Upzone from 'upzone/vue';
+import 'upzone/css';
 
 export default {
   name: 'MyComponent',
@@ -87,14 +89,6 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Customize your dropzone styles here */
-#dropzone-container {
-  border: 2px dashed #ddd;
-  padding: 20px;
-  text-align: center;
-}
-</style>
 ```
 
 ---

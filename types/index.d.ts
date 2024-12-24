@@ -18,6 +18,7 @@ export interface DropzoneOptions {
         default: string;
         invalidType: string;
         invalidSize: string;
+        fileAdded: string;
         uploadError: string;
         uploadSuccess: string;
         fileRemoved: string;

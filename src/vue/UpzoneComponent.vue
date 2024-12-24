@@ -37,7 +37,7 @@ onMounted(async () => {
 
     if (dropzoneInstance.value) {
         dropzoneInstance.value.on('fileadded', (file) => {
-            files.value.push(file);
+            files.value = [...files.value, file];
             emit('fileadded', file);
         });
 

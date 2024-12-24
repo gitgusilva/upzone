@@ -33,6 +33,7 @@ export default class Dropzone {
                     default: 'Drag and drop your files here or <strong>Browse</strong>',
                     invalidType: 'Invalid file type: {file}',
                     invalidSize: 'Invalid file size: {file} ({size} KB)',
+                    fileAdded: 'File added: {file}',
                     uploadError: 'Error uploading file: {file}',
                     uploadSuccess: 'File uploaded successfully: {file}',
                     fileRemoved: 'File removed: {file}',
@@ -141,7 +142,11 @@ export default class Dropzone {
                 return;
             }
 
-            this.emit('fileadded', file);
+            const message = this.formatMessage(this.options.messages.fileAdded, {
+                file: file.name
+            });
+
+            this.emit('fileadded', { file, message });
             this.addFileToList(file);
 
             if (this.options.autoQueue) {
