@@ -1,4 +1,3 @@
-
 # Upzone Documentation
 
 ## Overview
@@ -104,6 +103,42 @@ export default {
 | `minFileSize`   | `number`  | `0`                     | Minimum file size in bytes.                                                |
 | `headers`       | `Object`  | `{}`                    | Custom headers to send with the file upload request.                       |
 | `params`        | `Object`  | `{}`                    | Custom parameters to include with the upload request.                      |
+| `messages`      | `Object`  | See Default Messages Below | Customizable messages for different dropzone events.                      |
+
+### Default Messages for `messages`
+
+The `messages` option allows customization of the user-facing text displayed during dropzone interactions. Below are the default messages:
+
+```javascript
+messages: {
+    default: 'Drag and drop your files here or <strong>Browse</strong>',
+    invalidType: 'Invalid file type: {file}',
+    invalidSize: 'Invalid file size: {file} ({size} KB)',
+    fileAdded: 'File added: {file}',
+    uploadError: 'Error uploading file: {file}',
+    uploadSuccess: 'File uploaded successfully: {file}',
+    fileRemoved: 'File removed: {file}',
+}
+```
+
+- `{file}`: Replaced with the file name.
+- `{size}`: Replaced with the file size in KB.
+
+### Example Usage with `messages`
+
+```javascript
+const options = {
+    url: '/upload',
+    acceptedTypes: ['image/*'],
+    maxFileSize: 5000000, // 5MB
+    messages: {
+        default: 'Drop files here or <strong>click to browse</strong>',
+        invalidType: 'Unsupported file type: {file}',
+        invalidSize: 'File is too large: {file} ({size} KB)',
+        uploadSuccess: 'Great! {file} uploaded successfully.',
+    },
+};
+```
 
 ---
 
@@ -145,3 +180,4 @@ You can customize the appearance of your dropzone by targeting the following cla
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
+

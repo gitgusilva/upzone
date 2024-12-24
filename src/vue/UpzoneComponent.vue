@@ -50,7 +50,7 @@ onMounted(async () => {
         });
 
         dropzoneInstance.value.on('fileremoved', (file) => {
-            files.value = files.value.filter((f) => f.name !== file.name);
+            files.value = files.value.filter((f) => f.hash !== file.hash);
             emit('fileremoved', file);
         });
     }

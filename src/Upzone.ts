@@ -51,7 +51,7 @@ export default class Dropzone {
         this.initialize();
     }
 
-    createDropzone() {
+    private createDropzone() {
         const dropzone = document.createElement('div');
         dropzone.id = 'dropzone';
         dropzone.className = 'dropzone';
@@ -67,7 +67,7 @@ export default class Dropzone {
         this.element.appendChild(fileList);
     }
 
-    initialize() {
+    private initialize() {
         this.dropzone = this.element.querySelector('#dropzone');
         this.fileInput = this.element.querySelector('#fileInput');
         this.fileList = this.element.querySelector('#fileList');
@@ -75,7 +75,7 @@ export default class Dropzone {
         this.setupEventListeners();
     }
 
-    setupEventListeners() {
+    private setupEventListeners() {
         if (!this.dropzone || !this.fileInput) return;
 
         this.dropzone.addEventListener('dragover', this.handleDragOver.bind(this));
@@ -85,33 +85,37 @@ export default class Dropzone {
         this.fileInput.addEventListener('change', this.handleFileSelect.bind(this));
     }
 
-    handleDragOver(event: DragEvent) {
+    private handleDragOver(event: DragEvent) {
         event.preventDefault();
+
         if (this.dropzone) {
             this.dropzone.classList.add('drag-over');
         }
     }
 
-    handleDragLeave(event: DragEvent) {
+    private handleDragLeave(event: DragEvent) {
         event.preventDefault();
+
         if (this.dropzone) {
             this.dropzone.classList.remove('drag-over');
         }
     }
 
-    handleDrop(event: DragEvent) {
+    private handleDrop(event: DragEvent) {
         event.preventDefault();
+
         if (this.dropzone) {
             this.dropzone.classList.remove('drag-over');
         }
 
         const files = event.dataTransfer?.files;
+
         if (files) {
             this.validateAndHandleFiles(files);
         }
     }
 
-    handleFileSelect(event: Event) {
+    private handleFileSelect(event: Event) {
         const input = event.target as HTMLInputElement;
         const files = input.files;
 
@@ -120,7 +124,20 @@ export default class Dropzone {
         }
     }
 
-    validateAndHandleFiles(files: FileList) {
+    public send() {
+        if (this.queue.length === 0) {
+            console.warn("No files in the queue to upload.");
+            return;
+        }
+
+        this.queue.forEach((file) => {
+            this.uploadFile(file);
+        });
+
+        this.queue = [];
+    }
+
+    private validateAndHandleFiles(files: FileList) {
         Array.from(files).forEach((file) => {
             if (!this.isValidFileType(file)) {
                 const message = this.formatMessage(this.options.messages.invalidType, {
@@ -157,7 +174,7 @@ export default class Dropzone {
         });
     }
 
-    isValidFileType(file: File): boolean {
+    private isValidFileType(file: File): boolean {
         const acceptedTypes = this.options.acceptedTypes;
         return (
             acceptedTypes.includes('*') ||
@@ -165,14 +182,14 @@ export default class Dropzone {
         );
     }
 
-    isValidFileSize(file: File): boolean {
+    private isValidFileSize(file: File): boolean {
         return (
             file.size >= this.options.minFileSize &&
             file.size <= this.options.maxFileSize
         );
     }
 
-    addFileToList(file: File) {
+    private addFileToList(file: File) {
         const listItem = document.createElement('li');
         listItem.classList.add('file-list-item');
 
@@ -222,7 +239,7 @@ export default class Dropzone {
         (file as FileItem).listItem = listItem;
     }
 
-    uploadFile(file: File) {
+    private uploadFile(file: File) {
         const formData = new FormData();
         formData.append('file', file);
 
@@ -231,7 +248,7 @@ export default class Dropzone {
         }
 
         const xhr = new XMLHttpRequest();
-        xhr.open(this.options.method ?? 'POST', this.options.url);
+        xhr.open(this.options.method, this.options.url);
 
         for (const [header, value] of Object.entries(this.options.headers)) {
             xhr.setRequestHeader(header, value);
@@ -300,11 +317,11 @@ export default class Dropzone {
         xhr.send(formData);
     }
 
-    formatMessage(message: string, replacements: Record<string, string>): string {
+    private formatMessage(message: string, replacements: Record<string, string>): string {
         return message.replace(/{(.*?)}/g, (_, key) => replacements[key] || '');
     }
 
-    emit(event: string, data: any) {
+    private emit(event: string, data: any) {
         const listeners = this.eventListeners[event];
 
         if (listeners) {
@@ -312,7 +329,7 @@ export default class Dropzone {
         }
     }
 
-    on(event: string, callback: Function) {
+    public on(event: string, callback: Function) {
         if (!this.eventListeners[event]) {
             this.eventListeners[event] = [];
         }

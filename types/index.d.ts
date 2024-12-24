@@ -1,5 +1,6 @@
 declare global {
     interface File {
+        hash: string;
         listItem?: HTMLElement;
     }
 }
