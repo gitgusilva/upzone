@@ -11,7 +11,6 @@ const emit = defineEmits([
 ]);
 
 const files = ref([]);
-const element = ref();
 const dropzoneInstance = ref();
 
 const props = defineProps({
@@ -27,12 +26,14 @@ watch(files, (newValue) => {
 });
 
 onMounted(async () => {
-    if (!element.value) {
+    let element = document.getElementById('upzone');
+
+    if (!element) {
         console.error('Base element not found!');
         return;
     }
 
-    dropzoneInstance.value = new Upzone(element.value, props.options.value);
+    dropzoneInstance.value = new Upzone(element, props.options.value);
 
     if (dropzoneInstance.value) {
         dropzoneInstance.value.on('fileadded', (file) => {
@@ -65,5 +66,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div ref="element" key="upzone-instance" />
+    <div id="upzone" />
 </template>
