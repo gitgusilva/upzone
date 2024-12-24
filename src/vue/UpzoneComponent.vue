@@ -16,13 +16,9 @@ const dropzoneInstance = ref();
 
 const props = defineProps({
     modelValue: Array,
-    propExemplo: {
-        type: Boolean,
-        required: true
-    },
     options: {
         type: Object,
-        default: () => { }
+        default: () => ({})
     }
 });
 
@@ -31,6 +27,11 @@ watch(files, (newValue) => {
 });
 
 onMounted(async () => {
+    if (!element.value) {
+        console.error('Base element not found!');
+        return;
+    }
+
     dropzoneInstance.value = new Upzone(element.value, props.options.value);
 
     if (dropzoneInstance.value) {
@@ -59,16 +60,10 @@ onUnmounted(() => {
         dropzoneInstance.value = null;
     }
 
-    if (files.value) {
-        files.value = [];
-    }
-
-    if (element.value) {
-        element.value = null;
-    }
+    files.value = [];
 });
 </script>
 
 <template>
-    <div ref="element" />
+    <div ref="element" key="upzone-instance" />
 </template>

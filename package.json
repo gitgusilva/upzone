@@ -1,6 +1,6 @@
 {
   "name": "upzone",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A file upload component with drag-and-drop functionality. Provides easy integration for file selection, validation, and progress tracking.",
   "type": "module",
   "main": "./dist/upzone.js",
